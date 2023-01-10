@@ -57,7 +57,26 @@ func getProductoById(c *gin.Context){
     }
 }	
 
+func preciosMayores(c *gin.Context){
+	var resultado []Producto
 
+	precio, err := strconv.ParseFloat(c.Param("price"), 64)
+	if err!= nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	for _,p := range productos {
+		if p.Price > precio{
+			resultado = append(resultado, p)
+		}
+	}
+	
+	c.JSON(200, resultado)
+	
+}
 func main() {
 	router := gin.Default()
 	
@@ -72,6 +91,8 @@ func main() {
 	})
 
 	router.GET("/products/:id", getProductoById)
+
+	router.GET("/products/search/:price", preciosMayores)
 
     router.Run()
 }
