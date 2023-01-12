@@ -69,7 +69,7 @@ func CreateProduct() gin.HandlerFunc {
 
 		//si lo que ingresamos no es valido, nos devuelve un error
 		valido, err := product.ValidarProducto(&producto)
-		if !valido {
+		if err!=nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return 
 		}

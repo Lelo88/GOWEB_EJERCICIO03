@@ -28,13 +28,16 @@ func LoadProducts(path string) {
 //funcion que va a validar un objeto json vacio
 func ValidarProducto(producto *Producto) (bool,error){
 	switch {
-	case producto.Name == "" || producto.Code_Value == "" || producto.Expiration == "":
+	case (producto.Name == "") || (producto.Code_Value == "") || (producto.Expiration == ""):
 		return false, errors.New("los campos no pueden estar vacios")
-	case producto.Price<=0:
-		return false, errors.New("el precio no puede ser menor o igual a 0")
-	case producto.Quantity<=0:
-		return false, errors.New("la cantidad no puede ser menor o igual a 0")
-    }
+	case producto.Price<=0 || producto.Quantity<=0:
+		if producto.Price <=0 {
+			return false, errors.New("el precio no puede ser menor o igual a 0")
+		}
+		if producto.Quantity <=0 {
+			return false, errors.New("la cantidad no puede ser menor o igual a 0")
+		}
+	}
 	return true, nil
 }
 
@@ -49,12 +52,12 @@ func ValidarFecha(product *Producto) (bool,error){
 	for values := range fecha{
 		numero, err := strconv.Atoi(fecha[values])
 		if err != nil {
-			return false, errors.New("invalid expiration date, must be numbers")
+			return false, errors.New("fecha de vencimiento invalida, debe ingresar numeros")
 		}
 		listaFechas = append(listaFechas, numero)
 	}
 
-	if (listaFechas[0]<1 || listaFechas[0]>31) && (listaFechas[1]<1 || listaFechas[1]>12) && (listaFechas[2]<2023){
+	if (listaFechas[0]<1 || listaFechas[0]>31) || (listaFechas[1]<1 || listaFechas[1]>12) || (listaFechas[2]<2023) {
 		return false, errors.New("fecha de vencimiento invalido, la fecha de vencimiento debe ser del 1/1/2023 en adelante")
 	}
 
