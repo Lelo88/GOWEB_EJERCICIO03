@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//funcion que me va a devolver los productos de nuestra base de datos
 func GetProductos() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.JSON(200, product.Productos)
@@ -32,6 +33,7 @@ func GetProductoById() gin.HandlerFunc{
 	}
 }	
 
+//funcion que me va a devolver los productos mayores a un precio determinado pasados por query
 func PreciosMayores()gin.HandlerFunc{
 	return func(c *gin.Context){
 		var resultado []product.Producto
@@ -39,9 +41,7 @@ func PreciosMayores()gin.HandlerFunc{
 		precio, err := strconv.ParseFloat(c.Query("price"), 64)
 		
 		if err!= nil {
-		c.JSON(404, gin.H{
-			"error": err.Error(),
-		})
+		c.JSON(404, gin.H{"error": err.Error()})
 		return
 	}
 

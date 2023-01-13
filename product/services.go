@@ -10,6 +10,7 @@ import (
 
 var Productos = []Producto{}
 
+//funcion que nos carga el archivo json a la estructura producto
 func LoadProducts(path string) {
 	file, err := os.ReadFile(path)
     if err!= nil {
@@ -41,6 +42,7 @@ func ValidarProducto(producto *Producto) (bool,error){
 	return true, nil
 }
 
+//funcion que valida la fecha de vencimiento de un producto
 func ValidarFecha(product *Producto) (bool,error){
 
 	fecha := strings.Split(product.Expiration, "/")
@@ -64,6 +66,7 @@ func ValidarFecha(product *Producto) (bool,error){
 	return true, nil
 }
 
+//funcion que valida nuestro codigo de mercaderia
 func ValidaCodigoID(codigo string) bool{
 	for _,producto := range Productos {
 		if producto.Code_Value == codigo{

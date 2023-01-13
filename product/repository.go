@@ -1,3 +1,5 @@
+//estructura que representa a nuestra base de datos extraida con los datos del archivo products.json
+
 package product
 
 type Producto struct {
