@@ -1,13 +1,53 @@
 package product
 
 import (
-	"encoding/json"
-	"errors"
-	"os"
-	"strconv"
-	"strings"
+
+	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
 )
 
+type Service interface {
+	GetProductos() []domain.Producto
+	GetProductoById(id int) (domain.Producto, error)
+	PreciosMayores(precio float64) []domain.Producto
+	CreateProduct(p domain.Producto) (domain.Producto, error)
+}
+
+type servicio struct {
+	rep Repository
+}
+
+func NewService(re Repository) Service {
+    return &servicio{re}
+}
+
+func (s *servicio) GetProductos() []domain.Producto {
+	return s.rep.GetProductos()
+}
+
+func (s *servicio) GetProductoById(id int) (domain.Producto, error){
+	producto, err := s.rep.GetProductoByID(id)
+	if err!= nil {
+		return domain.Producto{}, err
+	}
+	return producto, nil
+}
+
+func (s *servicio) PreciosMayores(precio float64) []domain.Producto{
+	productos := s.rep.PreciosMayores(precio)
+	if len(productos) == 0 {
+		return []domain.Producto{}
+    }
+	return productos
+}
+
+func (s *servicio) CreateProduct(p domain.Producto) (domain.Producto, error){
+	producto, err := s.rep.CreateProduct(p)
+	if err!= nil {
+        return domain.Producto{}, err
+    }
+	return producto, nil
+}
+/*
 var Productos = []Producto{}
 
 //funcion que nos carga el archivo json a la estructura producto
@@ -27,7 +67,7 @@ func LoadProducts(path string) {
 //--------FUNCIONES PARA EL METODO POST-------
 
 //funcion que va a validar un objeto json vacio
-func ValidarProducto(producto *Producto) (bool,error){
+func ValidarProducto(producto *Producto) (bool,error) { 
 	switch {
 	case (producto.Name == "") || (producto.Code_Value == "") || (producto.Expiration == ""):
 		return false, errors.New("los campos no pueden estar vacios")
@@ -74,4 +114,4 @@ func ValidaCodigoID(codigo string) bool{
         }
 	}
 	return true
-}
+}*/
