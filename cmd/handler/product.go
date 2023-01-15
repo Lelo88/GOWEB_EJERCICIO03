@@ -30,13 +30,20 @@ func (prod *productHandler) GetProductos()gin.HandlerFunc{
 
 func (prod *productHandler) GetProductoById()gin.HandlerFunc{
 	return func(ctx *gin.Context) {
-        producto := ctx.Param("id")
-		prod, err := strconv.Atoi(producto)
+        idParam := ctx.Param("id")
+		id, err := strconv.Atoi(idParam)
         if err!= nil {
-            ctx.AbortWithError(500, err)
+            ctx.JSON(400, gin.H{"msg": "producto invalido"})
             return
         }
-		ctx.JSON(200, prod)
+
+		producto, err := prod.product.GetProductoById(id)
+		if err!= nil {
+			ctx.JSON(404, gin.H{"msg": "producto no encontrado"})
+			return
+		}
+		
+		ctx.JSON(200, producto)
 	}
 }
 

@@ -14,7 +14,7 @@ func main() {
 	
 	//carga de productos
 	var listaProductos = []domain.Producto{}
-	LoadProducts("productos", &listaProductos)
+	LoadProducts("products.json", &listaProductos)
 
 	repo := product.NuevoRepositorio(listaProductos)
 	service := product.NewService(repo)
@@ -29,6 +29,8 @@ func main() {
 		prods.GET("/", productHandler.GetProductos())
 		prods.GET("/id", productHandler.GetProductoById())
 	}
+
+	router.Run(":8080")
 }
 
 func LoadProducts(path string, listado *[]domain.Producto) {
