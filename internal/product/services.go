@@ -1,8 +1,6 @@
 package product
 
 import (
-	"encoding/json"
-	"os"
 
 	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
 )
@@ -54,20 +52,9 @@ func (s *servicio) CreateProduct(p domain.Producto) (domain.Producto, error){
 	return producto, nil
 }
 
-var Productos = []domain.Producto{}
 
 //funcion que nos carga el archivo json a la estructura producto
-func LoadProducts(path string) {
-	file, err := os.ReadFile(path)
-    if err!= nil {
-        panic(err)
-    }
 
-	err = json.Unmarshal(file, &Productos)
-    if err!= nil {
-		panic(err)
-	}
-}
 /*
 
 //--------FUNCIONES PARA EL METODO POST-------

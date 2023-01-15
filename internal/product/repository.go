@@ -19,14 +19,12 @@ type repositorio struct {
 	productos []domain.Producto
 }
 
-func NuevoRepositorio(productos []domain.Producto) *repositorio {
-	return &repositorio{
-        productos: productos,
-    }
+func NuevoRepositorio(listproductos []domain.Producto) Repository {
+	return &repositorio{listproductos}
 }
 
-func (rep *repositorio) GetProductos() []domain.Producto {
-	return rep.productos
+func (rep *repositorio) GetProductos() ([]domain.Producto, error) {
+	return rep.productos, nil
 }
 
 func (rep *repositorio) GetProductoByID(id int) (domain.Producto, error){

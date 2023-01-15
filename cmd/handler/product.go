@@ -3,7 +3,51 @@ package handler
 import (
 	"strconv"
 
-	"github.com/Lelo88/GOWEB_EJERCICIO03/product"
+	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/product"
+	"github.com/gin-gonic/gin"
+)
+
+type productHandler struct{
+	product product.Service
+}
+
+func NewProductHandler(prod product.Service) *productHandler {
+	return &productHandler{
+		product: prod,
+    }
+}
+
+func (prod *productHandler) GetProductos()gin.HandlerFunc{
+	return func(ctx *gin.Context) {
+		productos, err := prod.product.GetProductos()
+        if err!= nil {
+            ctx.JSON(500, err)
+            return
+        }
+        ctx.JSON(200, productos)
+    }
+}
+
+func (prod *productHandler) GetProductoById()gin.HandlerFunc{
+	return func(ctx *gin.Context) {
+        producto := ctx.Param("id")
+		prod, err := strconv.Atoi(producto)
+        if err!= nil {
+            ctx.AbortWithError(500, err)
+            return
+        }
+		ctx.JSON(200, prod)
+	}
+}
+
+
+
+/*
+import (
+	"strconv"
+
+	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
+	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/product"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +67,7 @@ func GetProductoById() gin.HandlerFunc{
 			c.JSON(400, gin.H{"error": "Invalid id"})
 			return
 		}
-		for _, product := range product.Productos {
+		for _, product := range domain.Producto {
 			if product.Id == id {
 				c.JSON(200, product)
 				return
@@ -36,7 +80,7 @@ func GetProductoById() gin.HandlerFunc{
 //funcion que me va a devolver los productos mayores a un precio determinado pasados por query
 func PreciosMayores()gin.HandlerFunc{
 	return func(c *gin.Context){
-		var resultado []product.Producto
+		var resultado []domain.Producto
 
 		precio, err := strconv.ParseFloat(c.Query("price"), 64)
 		
@@ -59,7 +103,7 @@ func CreateProduct() gin.HandlerFunc {
 	return func(c *gin.Context) {
         
 		//si lo que ingresamos no es un objeto json, nos devuelve un error
-		var producto product.Producto
+		var producto domain.Producto
 		
 		err := c.ShouldBindJSON(&producto)
         if err!= nil {
@@ -90,4 +134,4 @@ func CreateProduct() gin.HandlerFunc {
 		product.Productos = append(product.Productos, producto)
 		c.JSON(201, producto)
 	}
-}
+}*/
