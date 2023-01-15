@@ -1,6 +1,8 @@
 package product
 
 import (
+	"encoding/json"
+	"os"
 
 	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
 )
@@ -51,8 +53,8 @@ func (s *servicio) CreateProduct(p domain.Producto) (domain.Producto, error){
     }
 	return producto, nil
 }
-/*
-var Productos = []Producto{}
+
+var Productos = []domain.Producto{}
 
 //funcion que nos carga el archivo json a la estructura producto
 func LoadProducts(path string) {
@@ -66,7 +68,7 @@ func LoadProducts(path string) {
 		panic(err)
 	}
 }
-
+/*
 
 //--------FUNCIONES PARA EL METODO POST-------
 
