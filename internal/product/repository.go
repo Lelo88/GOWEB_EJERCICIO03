@@ -8,7 +8,7 @@ import (
 )
 
 type Repository interface {
-    GetProductos() []domain.Producto
+    GetProductos() ([]domain.Producto, error)
 	GetProductoByID(id int) (domain.Producto, error)
 	PreciosMayores(precio float64) []domain.Producto
 	CreateProduct(p domain.Producto) (domain.Producto, error)

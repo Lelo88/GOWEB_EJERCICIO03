@@ -6,7 +6,7 @@ import (
 )
 
 type Service interface {
-	GetProductos() []domain.Producto
+	GetProductos() ([]domain.Producto, error)
 	GetProductoById(id int) (domain.Producto, error)
 	PreciosMayores(precio float64) []domain.Producto
 	CreateProduct(p domain.Producto) (domain.Producto, error)
@@ -20,8 +20,12 @@ func NewService(re Repository) Service {
     return &servicio{re}
 }
 
-func (s *servicio) GetProductos() []domain.Producto {
-	return s.rep.GetProductos()
+func (s *servicio) GetProductos() ([]domain.Producto, error) {
+	productos, err:= s.rep.GetProductos()
+	if err!= nil {
+		return nil, err
+	}
+	return productos, nil
 }
 
 func (s *servicio) GetProductoById(id int) (domain.Producto, error){
