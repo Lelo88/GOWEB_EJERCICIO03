@@ -1,6 +1,7 @@
 package product
 
 import (
+	"errors"
 
 	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
 )
@@ -8,7 +9,7 @@ import (
 type Service interface {
 	GetProductos() ([]domain.Producto, error)
 	GetProductoById(id int) (domain.Producto, error)
-	PreciosMayores(precio float64) []domain.Producto
+	PreciosMayores(precio float64) ([]domain.Producto, error)
 	CreateProduct(p domain.Producto) (domain.Producto, error)
 }
 
@@ -36,12 +37,12 @@ func (s *servicio) GetProductoById(id int) (domain.Producto, error){
 	return producto, nil
 }
 
-func (s *servicio) PreciosMayores(precio float64) []domain.Producto{
+func (s *servicio) PreciosMayores(precio float64) ([]domain.Producto, error){
 	productos := s.rep.PreciosMayores(precio)
 	if len(productos) == 0 {
-		return []domain.Producto{}
+		return []domain.Producto{}, errors.New("not found")
     }
-	return productos
+	return productos, nil
 }
 
 func (s *servicio) CreateProduct(p domain.Producto) (domain.Producto, error){

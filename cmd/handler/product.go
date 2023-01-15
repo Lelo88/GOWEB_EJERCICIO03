@@ -42,11 +42,28 @@ func (prod *productHandler) GetProductoById()gin.HandlerFunc{
 			ctx.JSON(404, gin.H{"msg": "producto no encontrado"})
 			return
 		}
-		
+
 		ctx.JSON(200, producto)
 	}
 }
 
+func(prod productHandler) PreciosMayores()gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+	precioParam := ctx.Query("price")
+		price, err := strconv.ParseFloat(precioParam, 64)
+		if err!= nil {
+			ctx.JSON(400, gin.H{"msg": "precio invalido"})
+            return
+        }
+
+		productos, err := prod.product.PreciosMayores(price)
+		if err!= nil {
+			ctx.JSON(404, gin.H{"msg": "precio no encontrado"})
+            return
+        }
+		ctx.JSON(200, productos)
+    }
+}
 
 
 /*

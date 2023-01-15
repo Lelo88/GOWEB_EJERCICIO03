@@ -28,6 +28,7 @@ func main() {
 	{
 		prods.GET("/", productHandler.GetProductos())
 		prods.GET("/id", productHandler.GetProductoById())
+		prods.GET("/search", productHandler.PreciosMayores())
 	}
 
 	router.Run(":8080")
