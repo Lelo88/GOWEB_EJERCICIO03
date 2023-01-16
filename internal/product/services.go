@@ -1,3 +1,5 @@
+//por aca pasaremos las funcionalidades de repository que seran similares a lo que tendremos en repository
+
 package product
 
 import (
@@ -15,11 +17,11 @@ type Service interface {
 
 type servicio struct {
 	rep Repository
-}
+} 
 
 func NewService(re Repository) Service {
     return &servicio{re}
-}
+} //se crea un servicio para pasarle a repository lo que estaremos manejando
 
 func (s *servicio) GetProductos() ([]domain.Producto, error) {
 	productos, err:= s.rep.GetProductos()

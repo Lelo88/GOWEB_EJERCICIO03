@@ -1,3 +1,5 @@
+//por aca pasamos las funcionalidades del service para tener mas controlado los datos que se pasan por request
+
 package handler
 
 import (

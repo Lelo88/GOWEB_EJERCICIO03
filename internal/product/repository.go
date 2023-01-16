@@ -1,4 +1,4 @@
-
+//siempre inicia todo desde aca yendo a services 
 package product
 
 import (
@@ -21,11 +21,11 @@ type repositorio struct {
 
 func NuevoRepositorio(listproductos []domain.Producto) Repository {
 	return &repositorio{listproductos}
-}
+} //creacion del nuevo repositorio a partir de un archivo correspondiente
 
 func (rep *repositorio) GetProductos() ([]domain.Producto, error) {
 	return rep.productos, nil
-}
+} //este metodo obtendra todos los productos que guardamos en memoria
 
 func (rep *repositorio) GetProductoByID(id int) (domain.Producto, error){
 	for _, producto := range rep.productos {
@@ -34,7 +34,7 @@ func (rep *repositorio) GetProductoByID(id int) (domain.Producto, error){
         }
     }
     return domain.Producto{}, errors.New("no se encuentra el producto solicitado")
-}
+} //este metodo me devolvera el producto que 
 
 func (rep *repositorio) PreciosMayores(precio float64) ([]domain.Producto){
 

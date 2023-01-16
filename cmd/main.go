@@ -16,14 +16,15 @@ func main() {
 	var listaProductos = []domain.Producto{}
 	LoadProducts("products.json", &listaProductos)
 
-	repo := product.NuevoRepositorio(listaProductos)
-	service := product.NewService(repo)
-	productHandler := handler.NewProductHandler(service)
+	repo := product.NuevoRepositorio(listaProductos) //creo un repositorio nuevo con los datos provenientes del archivo products.json
+	service := product.NewService(repo) //creo los servicios correspondientes a repo, con todos sus metodos
+	productHandler := handler.NewProductHandler(service) //el handler que creamos correspondera al servicio que creemos
 
-    router := gin.Default()
+    router := gin.Default() //configuramos el inicio del router
 
-	router.GET("/ping", func(ctx *gin.Context) {ctx.String(200, "pong")})
+	router.GET("/ping", func(ctx *gin.Context) {ctx.String(200, "pong")}) //nuestro router de ejemplo
 
+	//creamos un grupo de enlaces que se dirigira a nuestros controladores
 	prods := router.Group("/productos")
 	{
 		prods.GET("/", productHandler.GetProductos())
@@ -35,6 +36,8 @@ func main() {
 	router.Run(":8080")
 }
 
+
+//funcion que va cargar nuestro archivo .json
 func LoadProducts(path string, listado *[]domain.Producto) {
 	file, err := os.ReadFile(path)
     if err!= nil {
