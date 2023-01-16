@@ -2,11 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 
-	"github.com/Lelo88/GOWEB_EJERCICIO03/cmd/handler"
+	"github.com/Lelo88/GOWEB_EJERCICIO03/cmd/routes"
 	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
-	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/product"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +16,15 @@ func main() {
 	var listaProductos = []domain.Producto{}
 	LoadProducts("products.json", &listaProductos)
 
-	repo := product.NuevoRepositorio(listaProductos) //creo un repositorio nuevo con los datos provenientes del archivo products.json
+	en:= gin.Default()
+	rts := routes.NewRouter(en, &listaProductos)
+	rts.SetRoutes()
+
+	if err:=en.Run(); err!= nil{
+		log.Fatal(err)
+	}
+
+	/*repo := product.NuevoRepositorio(listaProductos) //creo un repositorio nuevo con los datos provenientes del archivo products.json
 	service := product.NewService(repo) //creo los servicios correspondientes a repo, con todos sus metodos
 	productHandler := handler.NewProductHandler(service) //el handler que creamos correspondera al servicio que creemos
 
@@ -33,7 +41,7 @@ func main() {
 		prods.POST("/", productHandler.Create())
 	}
 
-	router.Run(":8080")
+	router.Run(":8080")*/
 }
 
 

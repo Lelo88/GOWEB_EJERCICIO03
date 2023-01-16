@@ -19,7 +19,7 @@ type servicio struct {
 	rep Repository
 } 
 
-func NewService(re Repository) Service {
+func NewService(re Repository) Service { //--> constructor
     return &servicio{re}
 } //se crea un servicio para pasarle a repository lo que estaremos manejando
 
