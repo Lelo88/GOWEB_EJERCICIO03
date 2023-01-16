@@ -1,23 +1,23 @@
-// estructura que representa a nuestra base de datos extraida con los datos del archivo products.json
+
 package product
 
 import (
 	"errors"
-
 	"github.com/Lelo88/GOWEB_EJERCICIO03/internal/domain"
 )
 
+//se crea la interfaz de repository para crear los metodos que estaran asociados 
 type Repository interface {
     GetProductos() ([]domain.Producto, error)
 	GetProductoByID(id int) (domain.Producto, error)
 	PreciosMayores(precio float64) []domain.Producto
 	CreateProduct(p domain.Producto) (domain.Producto, error)
-}
+} 
 
 //estructura que simula ser un repositorio
 type repositorio struct {
 	productos []domain.Producto
-}
+} //se crea a partir de nuestra "base de datos" inicializada en una estructura que se encuentra en la carpeta domain
 
 func NuevoRepositorio(listproductos []domain.Producto) Repository {
 	return &repositorio{listproductos}
@@ -40,7 +40,7 @@ func (rep *repositorio) PreciosMayores(precio float64) ([]domain.Producto){
 
 	var resultado []domain.Producto
 	for _, producto := range rep.productos {
-		if producto.Price == precio {
+		if producto.Price > precio {
             resultado = append(resultado, producto)
         }
     }
